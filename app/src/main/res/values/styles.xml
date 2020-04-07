@@ -1,0 +1,38 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="FabStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">#179AB7</item>
+        <item name="tint">@color/colorAccent</item>
+        <item name="fabSize">normal</item>
+        <item name="android:src">@drawable/ic_add</item>
+    </style>
+
+    <style name="TILStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textCursorDrawable">@drawable/cursor_drawable</item>
+        <item name="boxBackgroundColor">#1A179AB7</item>
+        <item name="hintTextColor">#179AB7</item>
+        <item name="android:textColor">#DE000000</item>
+        <item name="colorAccent">#000000</item>
+        <item name="colorControlActivated">#179AB7</item>
+        <item name="boxCornerRadiusTopStart">6dp</item>
+        <item name="boxCornerRadiusTopEnd">6dp</item>
+    </style>
+
+    <style name="TILSOutlinetyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textCursorDrawable">@drawable/cursor_drawable</item>
+        <item name="hintTextColor">#179AB7</item>
+        <item name="android:textColor">#DE000000</item>
+        <item name="colorAccent">#000000</item>
+        <item name="boxStrokeColor">@color/outline_drawable</item>
+        <item name="boxCornerRadiusTopStart">6dp</item>
+        <item name="boxCornerRadiusTopEnd">6dp</item>
+    </style>
+
+</resources>
+

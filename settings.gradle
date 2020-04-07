@@ -1,0 +1,2 @@
+rootProject.name='Tusk Manager'
+include ':app'

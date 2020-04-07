@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/TILSOutlinetyle"
+        android:id="@+id/tf_task"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:hint="@string/TaskTitle"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/guideline_right"
+        app:layout_constraintStart_toEndOf="@+id/guideline_left"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="318dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            style="@style/TILSOutlinetyle"
+            tools:text="Annual sit ups" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tf_task_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        style="@style/TILSOutlinetyle"
+        android:hint="@string/TaskDescription"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/guideline_right"
+        app:layout_constraintStart_toEndOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/tf_task"
+        app:layout_constraintWidth_max="318dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:maxLines="5"
+            android:layout_height="wrap_content"
+            style="@style/TILSOutlinetyle"
+            tools:text="Do five sit ups" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/TILSOutlinetyle"
+        android:id="@+id/tf_date"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:hint="@string/Date"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@id/tf_task"
+        app:layout_constraintTop_toBottomOf="@+id/tf_task_description">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TILSOutlinetyle"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            tools:text="11.02.1988" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/TILSOutlinetyle"
+        android:id="@+id/tf_time"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:hint="@string/Time"
+        app:layout_constraintEnd_toEndOf="@id/tf_task"
+        app:layout_constraintTop_toBottomOf="@+id/tf_task_description">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            style="@style/TILSOutlinetyle"
+            android:scrollHorizontally="true"
+            tools:text="2:30 PM" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/g_choose_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:elevation="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:constraint_referenced_ids="iv_choose_category, v_choose_category, tv_choose_category"/>
+
+    <View
+        android:layout_width="100dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:background="@drawable/bg_list_elemt"
+        android:layout_height="100dp"
+        android:id="@+id/v_choose_category"
+        app:layout_constraintTop_toBottomOf="@+id/tf_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="50dp"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iv_choose_category"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="@+id/v_choose_category"
+        app:layout_constraintTop_toTopOf="@+id/v_choose_category"
+        app:layout_constraintEnd_toEndOf="@+id/v_choose_category"
+        android:tint="#179AB7"
+        android:src="@drawable/ic_add"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_choose_category"
+        android:layout_marginTop="5dp"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@+id/iv_choose_category"
+        app:layout_constraintStart_toStartOf="@+id/v_choose_category"
+        app:layout_constraintEnd_toEndOf="@+id/v_choose_category"
+        android:text="@string/PickCategory"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
