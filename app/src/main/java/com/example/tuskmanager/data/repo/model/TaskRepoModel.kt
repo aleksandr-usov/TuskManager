@@ -6,11 +6,14 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "tasks")
 data class TaskRepoModel(
     @PrimaryKey(autoGenerate = true)
+
     val uniqueTaskId: Long = 0L,
     val title: String,
     val category: String,
+    val categoryIcon: String,
+    val color: String,
     val description: String,
-    val dateCreated: Long,
+    val dateAndTimeCreated: Long,
     val dateDue: Long,
     val timeDue: Long
 )

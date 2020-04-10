@@ -4,6 +4,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
+        <item name="android:timePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
+    </style>
+
+    <style name="MyDatePickerDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="colorAccent">#179AB7</item>
+        <item name="colorPrimary">#179AB7</item>
     </style>
 
     <style name="FabStyle" parent="Widget.MaterialComponents.FloatingActionButton">

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.tuskmanager.data.repo.model.TaskRepoModel
 import com.example.tuskmanager.ui.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -51,16 +52,24 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+//        viewModel.currentTask.observe(this, Observer {
+//            it ?: return@Observer
+//            if (SharedViewModel.Screen.NEW_TASK.)
+//                fab.isEnabled = it.isTaskValid()
+//        })
+
         viewModel.screen.observe(this, Observer {
             val fragment = when (it ?: return@Observer) {
                 SharedViewModel.Screen.ALL_TASKS -> AllTasksFragment()
                 SharedViewModel.Screen.NEW_TASK -> NewTaskFragment()
                 SharedViewModel.Screen.ALL_CATEGORIES -> AllCategoriesFragment()
+                SharedViewModel.Screen.NEW_CATEGORY -> NewCategoryFragment()
             }
 
             supportFragmentManager
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+               // .addSharedElement(bar, "bar")
                 .replace(R.id.fl_container, fragment)
                 .commit()
 
@@ -69,17 +78,25 @@ class MainActivity : AppCompatActivity() {
                     fab.show()
                     fab.setImageResource(R.drawable.ic_add)
                 }
+                SharedViewModel.Screen.NEW_TASK -> {
+                    fab.show()
+                    fab.setImageResource(R.drawable.ic_check)
+                }
+                SharedViewModel.Screen.NEW_CATEGORY -> {
+                    fab.show()
+                    fab.setImageResource(R.drawable.ic_check)
+                }
                 else -> {
                     fab.hide()
-                   // fab.setImageResource(R.drawable.ic_check)
                 }
             }
 
+            fab.setOnClickListener {
+                viewModel.fabClicked()
+                }
+
+
             viewModel.setToolBarText()
         })
-
-        fab.setOnClickListener {
-            viewModel.fabClicked()
-        }
     }
 }

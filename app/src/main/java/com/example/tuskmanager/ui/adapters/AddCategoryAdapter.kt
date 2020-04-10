@@ -45,7 +45,7 @@ class AddCategoryAdapter(
         fun bind(item: CategoryDomainModel) {
             this.item = WeakReference(item)
 
-            itemView.setOnClickListener { listener.onItemClick(item) }
+            itemView.setOnClickListener { listener.onAddClick() }
         }
     }
 }

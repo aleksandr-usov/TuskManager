@@ -6,7 +6,7 @@
     android:layout_height="120dp"
     android:background="@drawable/bg_list_elemt"
     android:layout_marginBottom="15dp"
-    android:layout_marginStart="8dp"
+    android:layout_marginStart="12dp"
     android:elevation="2dp">
 
     <View
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textColor="#807F7F"
-        android:textSize="13sp"
+        android:textSize="14sp"
         android:text="@string/Add"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_task_icon_new"

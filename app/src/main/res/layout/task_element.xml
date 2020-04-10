@@ -42,6 +42,7 @@
         app:layout_constraintTop_toTopOf="@+id/v_task_element"
         app:layout_constraintBottom_toTopOf="@+id/tv_task_element_time"
         tools:text="Do work, then stop"
+        android:layout_marginStart="8dp"
         android:maxLines="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

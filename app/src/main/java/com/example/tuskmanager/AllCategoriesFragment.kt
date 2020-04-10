@@ -24,6 +24,11 @@ class AllCategoriesFragment : Fragment() {
         override fun onItemClick(newlySelected: CategoryDomainModel) {
             viewModel.onCategoryClicked(newlySelected)
         }
+
+        override fun onAddClick() {
+            viewModel.onAddCategoryClicked()
+        }
+
     }
 
     private val allCategoriesAdapter = AllCategoriesAdapter(listener)
@@ -50,7 +55,7 @@ class AllCategoriesFragment : Fragment() {
 
         rv_categories_list.adapter = mergeAdapter
 
-        addCategoryAdapter.setItems(viewModel.specialCategoryAdd)
+        addCategoryAdapter.setItems(SharedViewModel.CATEGORY_ADD_NEW)
     }
 
     private fun initLiveData() {
@@ -61,6 +66,7 @@ class AllCategoriesFragment : Fragment() {
 
     interface OnChooseCategoryClickListener {
         fun onItemClick(newlySelected: CategoryDomainModel)
+        fun onAddClick()
     }
 }
 
