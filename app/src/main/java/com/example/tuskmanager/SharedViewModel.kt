@@ -13,6 +13,8 @@ import com.example.tuskmanager.data.repo.model.TaskRepoModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.text.SimpleDateFormat
+import java.util.*
 
 class SharedViewModel constructor(
     private val taskRepository: TaskRepository,
@@ -49,9 +51,6 @@ class SharedViewModel constructor(
     private val _currentTask = MutableLiveData<TaskDomainModel>()
     val currentTask: LiveData<TaskDomainModel> = _currentTask
 
-    private val _currentTaskDateInMillis = MutableLiveData<Long>()
-    private val _currentTaskTimeInMillis = MutableLiveData<Long>()
-
     private val disposables = CompositeDisposable()
 
     init {
@@ -84,7 +83,13 @@ class SharedViewModel constructor(
         )
     }
 
-    private fun addTask() {
+    fun addTask() {
+
+        val myDate = _currentTask.value?.dateDue + _currentTask.value?.timeDue
+        val sdf = SimpleDateFormat("dd.MM.yyyyHH:mm", Locale.ROOT)
+        val date = sdf.parse(myDate)
+        val millis: Long = date.time
+
        val newRepoTask = TaskRepoModel(
            uniqueTaskId = _currentTask.value?.id ?: 0,
            title = _currentTask.value?.title ?: "",
@@ -92,8 +97,7 @@ class SharedViewModel constructor(
            categoryIcon = _currentTask.value?.categoryIcon ?: "",
            color = _currentTask.value?.color ?: "",
            dateAndTimeCreated = System.currentTimeMillis(),
-           dateDue = _currentTaskDateInMillis.value ?: 0,
-           timeDue = _currentTaskTimeInMillis.value ?: 0,
+           dateAndTimeDue = millis,
            description = _currentTask.value?.description ?: ""
        )
 
@@ -120,14 +124,12 @@ class SharedViewModel constructor(
 
     }
 
-    fun dateSelected(selectedDate: String, inMillis: Long) {
+    fun dateSelected(selectedDate: String) {
         _currentTask.value?.dateDue = selectedDate
-        _currentTaskDateInMillis.value = inMillis
     }
 
-    fun timeSelected(selectedTime: String, inMillis: Long) {
+    fun timeSelected(selectedTime: String) {
         _currentTask.value?.timeDue = selectedTime
-        _currentTaskTimeInMillis.value = inMillis
     }
 
     fun newTitleEntered(newTaskTitleEntered: String) {

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/allTasksFragment">
+
+    <fragment
+        android:id="@+id/allTasksFragment"
+        android:name="com.example.tuskmanager.AllTasksFragment"
+        tools:layout="@layout/fragment_tasks_list"
+        android:label="All Tasks" >
+        <action
+            android:id="@+id/action_allTasksFragment_to_newTaskFragment"
+            app:destination="@id/newTaskFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/newTaskFragment"
+        android:name="com.example.tuskmanager.NewTaskFragment"
+        tools:layout="@layout/fragment_new_task"
+        android:label="New Task" >
+        <action
+            android:id="@+id/action_newTaskFragment_to_allCategoriesFragment"
+            app:destination="@id/allCategoriesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/newTaskFragment" />
+        <action
+            android:id="@+id/action_newTaskFragment_to_allTasksFragment"
+            app:popUpTo="@id/allTasksFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/allCategoriesFragment"
+        android:name="com.example.tuskmanager.AllCategoriesFragment"
+        tools:layout="@layout/fragment_category_list"
+        android:label="All Categories" >
+        <action
+            android:id="@+id/action_allCategoriesFragment_to_newCategoryFragment"
+            app:destination="@id/newCategoryFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_allCategoriesFragment_to_newTaskFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/newTaskFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newCategoryFragment"
+        android:name="com.example.tuskmanager.NewCategoryFragment"
+        tools:layout="@layout/fragment_new_category"
+        android:label="New Category" >
+        <action
+            android:id="@+id/action_newCategoryFragment_to_allCategoriesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/allCategoriesFragment" />
+    </fragment>
+</navigation>
