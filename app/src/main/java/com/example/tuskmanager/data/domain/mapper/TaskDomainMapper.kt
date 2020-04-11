@@ -12,8 +12,8 @@ class TaskDomainMapper @Inject constructor() {
 
         val patternDate = "dd.MM.yyyy"
         val patternTime = "HH:mm"
-        val formatterDate = SimpleDateFormat(patternDate)
-        val formatterTime = SimpleDateFormat(patternTime)
+        val formatterDate = SimpleDateFormat(patternDate, Locale.ROOT)
+        val formatterTime = SimpleDateFormat(patternTime, Locale.ROOT)
 
         return TaskDomainModel(
             id = taskRepo.uniqueTaskId,
@@ -23,8 +23,8 @@ class TaskDomainMapper @Inject constructor() {
             color = taskRepo.color,
             description = taskRepo.description,
             dateCreated = taskRepo.dateAndTimeCreated.toString(),
-            dateDue = formatterDate.format(Date(taskRepo.dateDue)),
-            timeDue = formatterTime.format(Date(taskRepo.timeDue))
+            dateDue = formatterDate.format(Date(taskRepo.dateAndTimeDue)),
+            timeDue = formatterTime.format(Date(taskRepo.dateAndTimeDue))
         )
     }
 }

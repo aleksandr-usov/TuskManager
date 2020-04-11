@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +13,10 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_new_task.*
-import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.min
 
 class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
@@ -37,10 +37,17 @@ class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
         initLiveData()
         initViews()
+
+        // val navController = Navigation.findNavController(view)
+
+        v_choose_category.setOnClickListener {
+            findNavController().navigate(R.id.action_newTaskFragment_to_allCategoriesFragment)
+        }
     }
 
-
     private fun initViews() {
+        fab.setImageResource(R.drawable.ic_check)
+
         v_choose_category.setOnClickListener {
             viewModel.chooseCategoryClicked()
         }
@@ -54,6 +61,11 @@ class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
             )
             datePickerDialog.show()
+        }
+
+        fab.setOnClickListener {
+            findNavController().navigate(R.id.action_newTaskFragment_to_allTasksFragment)
+            viewModel.addTask()
         }
 
         tf_time.setStartIconOnClickListener {
@@ -101,25 +113,30 @@ class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        val calendar = Calendar.getInstance()
-        calendar.set(year, month, dayOfMonth)
-        val inMillis = calendar.timeInMillis
-        val pattern = "dd.MM.yyyy"
-        val formatter = SimpleDateFormat(pattern)
-        val date = formatter.format(Date(inMillis))
+       val dayToDisplay = if (dayOfMonth < 10) {
+           "0$dayOfMonth"
+       } else dayOfMonth
+
+        val monthToDisplay = if (month + 1 < 10) {
+            "0${month + 1}"
+        } else month + 1
+
+        val date = "$dayToDisplay.$monthToDisplay.$year"
         tf_date.editText?.setText(date)
-        viewModel.dateSelected(date, inMillis)
+        viewModel.dateSelected(date)
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        "$hourOfDay:$minute"
-        val calendar = Calendar.getInstance()
-        calendar.set(1988, 11 , 2, hourOfDay, minute, 0)
-        val inMillis = calendar.timeInMillis
-        val pattern = "HH:mm"
-        val formatter = SimpleDateFormat(pattern)
-        val time = formatter.format(Date(inMillis))
-        tf_time.editText?.setText(time)
-        viewModel.timeSelected(time, inMillis)
+        val hourToDisplay = if (hourOfDay < 10) {
+            "0$hourOfDay"
+        } else hourOfDay
+
+        val minuteToDisplay = if (minute < 10) {
+            "0$minute"
+        } else minute
+
+        val time = "$hourToDisplay:$minuteToDisplay"
+       tf_time.editText?.setText(time)
+        viewModel.timeSelected(time)
     }
 }

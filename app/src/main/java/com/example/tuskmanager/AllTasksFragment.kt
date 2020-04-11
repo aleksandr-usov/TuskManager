@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tuskmanager.data.domain.model.TaskDomainModel
@@ -51,6 +54,12 @@ class AllTasksFragment : Fragment() {
                 group_empty_state.visibility = View.VISIBLE
             }
         })
+
+       // val navController = Navigation.findNavController(view)
+
+        fab.setOnClickListener {
+           findNavController().navigate(R.id.action_allTasksFragment_to_newTaskFragment)
+        }
     }
 
     interface OnChooseTaskClickListener {

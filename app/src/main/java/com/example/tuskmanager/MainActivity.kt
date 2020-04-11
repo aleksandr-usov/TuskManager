@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.tuskmanager.ui.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -30,78 +32,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
         val toolbar = tb_top_toolbar
+
         setSupportActionBar(toolbar)
 
-        tb_top_toolbar.setNavigationOnClickListener {
-            viewModel.onBackPressed()
-        }
+        NavigationUI.setupActionBarWithNavController(this, findNavController(R.id.nav_host_fragment))
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        findNavController(R.id.nav_host_fragment).navigateUp()
+        return super.onSupportNavigateUp()
     }
 
     private fun initLiveData() {
-        viewModel.toolBarText.observe(this, Observer {
-            tb_top_toolbar.title = it?.displayableName
-
-            when (it ?: return@Observer) {
-                SharedViewModel.ToolBarText.ALL_TASKS -> {
-                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
-                }
-                else -> {
-                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                }
-            }
-        })
-
-//        viewModel.currentTask.observe(this, Observer {
-//            it ?: return@Observer
-//                fab.isEnabled = it.isTaskValid()
-//        })
-
-        viewModel.screen.observe(this, Observer {
-            val fragment = when (it ?: return@Observer) {
-                SharedViewModel.Screen.ALL_TASKS -> AllTasksFragment()
-                SharedViewModel.Screen.NEW_TASK -> NewTaskFragment()
-                SharedViewModel.Screen.ALL_CATEGORIES -> AllCategoriesFragment()
-                SharedViewModel.Screen.NEW_CATEGORY -> NewCategoryFragment()
-            }
-
-//            if (it == SharedViewModel.Screen.NEW_TASK) {
-//                viewModel.currentTask.observe(this, Observer {
-//                    fab.isEnabled = it.isTaskValid()
-//                })
-//            } else {
-//                fab.isEnabled
-//            }
-
-            supportFragmentManager
-                .beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.fl_container, fragment)
-                .commit()
-
-            when (it) {
-                SharedViewModel.Screen.ALL_TASKS -> {
-                    fab.show()
-                    fab.setImageResource(R.drawable.ic_add)
-                }
-                SharedViewModel.Screen.NEW_TASK -> {
-                    fab.show()
-                    fab.setImageResource(R.drawable.ic_check)
-                }
-                SharedViewModel.Screen.NEW_CATEGORY -> {
-                    fab.show()
-                    fab.setImageResource(R.drawable.ic_check)
-                }
-                else -> {
-                    fab.hide()
-                }
-            }
-
-            fab.setOnClickListener {
-                viewModel.fabClicked()
-            }
-
-
-            viewModel.setToolBarText()
+        viewModel.currentTask.observe(this, Observer {
+            it ?: return@Observer
         })
     }
 }

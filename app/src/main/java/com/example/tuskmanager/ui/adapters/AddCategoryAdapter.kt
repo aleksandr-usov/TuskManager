@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tuskmanager.AllCategoriesFragment
 import com.example.tuskmanager.R
+import com.example.tuskmanager.SharedViewModel
 import com.example.tuskmanager.data.domain.model.CategoryDomainModel
 import java.lang.ref.WeakReference
 
@@ -13,12 +14,6 @@ class AddCategoryAdapter(
     val listener: AllCategoriesFragment.OnChooseCategoryClickListener
 ) : RecyclerView.Adapter<AddCategoryAdapter.AddCategoryViewHolder>() {
 
-    private val addCategory = mutableListOf<CategoryDomainModel>()
-
-    fun setItems(item: CategoryDomainModel) {
-        addCategory.add(item)
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -31,12 +26,11 @@ class AddCategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: AddCategoryViewHolder, position: Int) {
-        val item = addCategory[position]
-        holder.bind(item)
+        holder.bind(SharedViewModel.CATEGORY_ADD_NEW)
     }
 
     override fun getItemCount(): Int {
-        return addCategory.size
+        return 1
     }
 
     inner class AddCategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
