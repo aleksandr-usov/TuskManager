@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.tuskmanager.data.repo.model.TaskRepoModel
 import com.example.tuskmanager.ui.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -54,7 +53,6 @@ class MainActivity : AppCompatActivity() {
 
 //        viewModel.currentTask.observe(this, Observer {
 //            it ?: return@Observer
-//            if (SharedViewModel.Screen.NEW_TASK.)
 //                fab.isEnabled = it.isTaskValid()
 //        })
 
@@ -66,10 +64,17 @@ class MainActivity : AppCompatActivity() {
                 SharedViewModel.Screen.NEW_CATEGORY -> NewCategoryFragment()
             }
 
+//            if (it == SharedViewModel.Screen.NEW_TASK) {
+//                viewModel.currentTask.observe(this, Observer {
+//                    fab.isEnabled = it.isTaskValid()
+//                })
+//            } else {
+//                fab.isEnabled
+//            }
+
             supportFragmentManager
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-               // .addSharedElement(bar, "bar")
                 .replace(R.id.fl_container, fragment)
                 .commit()
 
@@ -93,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
             fab.setOnClickListener {
                 viewModel.fabClicked()
-                }
+            }
 
 
             viewModel.setToolBarText()

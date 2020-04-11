@@ -208,7 +208,7 @@ class SharedViewModel constructor(
         _screen.value = newScreen
         if (_screen.value == Screen.ALL_TASKS) {
             _currentCategory.value = CATEGORY_ADD_NEW
-         //   _currentTask.value = TASK_ADD_NEW
+            _currentTask.value = TASK_ADD_NEW
         }
     }
 
