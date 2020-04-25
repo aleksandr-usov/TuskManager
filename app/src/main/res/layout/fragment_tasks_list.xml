@@ -5,6 +5,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <EditText
+        android:id="@+id/et_search_tasks"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="@string/search"
+        android:maxLines="1"
+        style="@style/ETStyle"
+        android:scrollHorizontally="true"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#20179AB7"
+        app:layout_constraintBottom_toBottomOf="@+id/et_search_tasks"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_tasks_list"
         android:layout_width="0dp"
@@ -14,7 +35,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_search_tasks"
         tools:listitem="@layout/task_element" />
 
     <androidx.constraintlayout.widget.Group

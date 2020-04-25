@@ -16,7 +16,9 @@ class AllTasksViewModel constructor(
 ) : ViewModel() {
 
     private val _allTasks = MutableLiveData<List<TaskDomainModel>>()
-    val allTasks: LiveData<List<TaskDomainModel>> = _allTasks
+
+    private val _tasksToDisplay = MutableLiveData<List<TaskDomainModel>>()
+    val tasksToDisplay: LiveData<List<TaskDomainModel>> = _tasksToDisplay
 
     private val _swipedTask = MutableLiveData<TaskDomainModel>()
 
@@ -27,6 +29,20 @@ class AllTasksViewModel constructor(
 
     init {
         sort()
+    }
+
+    fun searchTasks(query: String) {
+        if (query.isEmpty()) {
+            _tasksToDisplay.value = _allTasks.value
+        } else {
+            _tasksToDisplay.value = _allTasks.value?.filter {
+                with(it) {
+                    description.contains(query, true) ||
+                            title.contains(query, true) ||
+                            category.contains(query, true)
+                }
+            }
+        }
     }
 
     fun sort() {
@@ -51,6 +67,7 @@ class AllTasksViewModel constructor(
         }
         _allTasks.value =
             _allTasks.value?.sortedBy { convertDateAndTime(it.dateDue, it.timeDue) }
+        _tasksToDisplay.value = _allTasks.value
     }
 
     fun getSwipedTask(task: TaskDomainModel?) {
