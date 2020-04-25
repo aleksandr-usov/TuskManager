@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:hint="@string/TaskTitle"
+        android:hint="@string/task_title"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toStartOf="@id/guideline_right"
         app:layout_constraintStart_toEndOf="@+id/guideline_left"
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         style="@style/TILSOutlinetyle"
-        android:hint="@string/TaskDescription"
+        android:hint="@string/task_description"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toStartOf="@id/guideline_right"
         app:layout_constraintStart_toEndOf="@+id/guideline_left"
@@ -58,7 +58,7 @@
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:hint="@string/Date"
+        android:hint="@string/date"
         app:startIconDrawable="@drawable/ic_date"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@id/tf_task"
@@ -70,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
+            android:focusable="false"
             android:scrollHorizontally="true"
             tools:text="11.02.1988" />
 
@@ -82,7 +83,7 @@
         app:startIconDrawable="@drawable/ic_clock_small"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:hint="@string/Time"
+        android:hint="@string/time"
         app:layout_constraintEnd_toEndOf="@id/tf_task"
         app:layout_constraintTop_toBottomOf="@+id/tf_task_description">
 
@@ -90,6 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
+            android:focusable="false"
             style="@style/TILSOutlinetyle"
             android:scrollHorizontally="true"
             tools:text="2:30 PM" />
@@ -153,6 +155,32 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_choose_category"
         app:layout_constraintStart_toStartOf="@+id/v_choose_category"
         app:layout_constraintEnd_toEndOf="@+id/v_choose_category"
-        android:text="@string/PickCategory"/>
+        android:text="@string/pick_category"/>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:elevation="8dp"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bar"
+            android:transitionName="bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:visibility="invisible"
+            app:buttonGravity="center_vertical"
+            app:fabAlignmentMode="center" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            style="@style/FabStyle"
+            android:src="@drawable/ic_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@id/bar" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

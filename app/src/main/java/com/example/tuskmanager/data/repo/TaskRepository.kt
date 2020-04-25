@@ -7,6 +7,7 @@ import com.example.tuskmanager.data.repo.model.TaskRepoModel
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,9 +31,17 @@ class TaskRepository
         }
     }
 
+    fun delayTaskByDay(id: Long): Completable {
+        return localDataSource.delayTaskByDay(id)
+    }
+
     fun insertTask(task: TaskRepoModel): Completable {
         return localDataSource.insertTask(task)
             .ignoreElement()
+    }
+
+    fun markTaskCompleted(taskId: Long): Completable {
+        return localDataSource.markTaskAsCompleted(taskId)
     }
 
     fun deleteTask(taskId: Long): Completable {

@@ -2,7 +2,10 @@ package com.example.tuskmanager.data.repo.local
 
 import com.example.tuskmanager.data.repo.local.db.TaskDatabase
 import com.example.tuskmanager.data.repo.model.TaskRepoModel
+import io.reactivex.Completable
 import io.reactivex.Flowable
+import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,4 +24,28 @@ class TaskLocalDataSource @Inject constructor(
     fun deleteTask(taskId: Long) = database.taskDao().deleteTask(taskId)
 
     fun deleteTasks(ids: List<Long>) = database.taskDao().deleteTasks(ids)
+
+    fun delayTaskByDay(id: Long): Completable {
+        return getTask(id).map {
+            val currentDate = Date(it.dateAndTimeDue)
+            val newDate = currentDate.plus(1, TimeUnit.DAYS)
+            return@map it.copy(dateAndTimeDue = newDate.time)
+        }
+            .flatMap { insertTask(it) }
+            .ignoreElement()
+    }
+
+    // TODO extract these extension functions into a separate class
+    fun Date.minus(value: Long, unit: TimeUnit): Date {
+        return Date(this.time - unit.toMillis(value))
+    }
+
+    // TODO extract these extension functions into a separate class
+    fun Date.plus(value: Long, unit: TimeUnit): Date {
+        return Date(this.time + unit.toMillis(value))
+    }
+
+    fun markTaskAsCompleted(taskId: Long): Completable {
+        return database.taskDao().markTaskAsCompleted(taskId)
+    }
 }

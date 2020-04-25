@@ -57,11 +57,23 @@ class AllTasksAdapter(
                 "com.example.tuskmanager"
             )
 
+            if (item.isComplete) {
+                itemView.iv_star.visibility = View.VISIBLE
+                itemView.iv_star.alpha = .5F
+                itemView.tv_task_element_time.text = "Completed!"
+                itemView.tv_task_element_time.setTextColor(Color.parseColor("#10D53B"))
+                itemView.tv_task_element_time.alpha = .5F
+            } else {
+                itemView.iv_star.visibility = View.INVISIBLE
+                textViewTime.text = "${item.dateDue}, ${item.timeDue}"
+                itemView.tv_task_element_time.setTextColor(Color.parseColor("#DE000000"))
+                itemView.tv_task_element_time.alpha = .5F
+            }
+
             textViewTitle.text = item.title
             textViewTitle.setTextColor(Color.parseColor(item.color))
             textViewCategory.text = item.category
             textViewCategory.setTextColor(Color.parseColor(item.color))
-            textViewTime.text = "${item.dateDue}, ${item.timeDue}"
             textViewDescription.text = item.description
             imageViewIcon.setImageResource(icon)
             imageViewIcon.setColorFilter(Color.parseColor(item.color))

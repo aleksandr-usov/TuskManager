@@ -3,4 +3,5 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#179AB7</color>
     <color name="colorAccent">#ffffff</color>
+    <color name="category_icon_color">#179AB7</color>
 </resources>

@@ -1,8 +1,6 @@
 package com.example.tuskmanager.di
 
-import com.example.tuskmanager.MainActivity
-import com.example.tuskmanager.NewTaskFragment
-import com.example.tuskmanager.TaskApplication
+import com.example.tuskmanager.*
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -15,9 +13,9 @@ import javax.inject.Singleton
 
 @Singleton
 interface AppComponent {
-
-    fun inject(mainActivity: MainActivity)
-    fun inject(newTaskFragment: NewTaskFragment)
+    fun inject(AllTasksFragment: AllTasksFragment)
+    fun inject(NewTaskFragment: NewTaskFragment)
+    fun inject(NewCategoryFragment: NewCategoryFragment)
 
     @Component.Builder
     interface Builder {

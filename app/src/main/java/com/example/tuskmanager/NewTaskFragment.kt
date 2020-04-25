@@ -14,35 +14,49 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.example.tuskmanager.data.domain.model.TaskDomainModel
+import com.example.tuskmanager.ui.viewmodel.NewTaskViewModelFactory
 import kotlinx.android.synthetic.main.fragment_new_task.*
-import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
+    @Inject
+    lateinit var newTaskViewModelFactory: NewTaskViewModelFactory
 
-    private val viewModel by lazy {
-        ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+    private val newTaskViewModel by lazy {
+        ViewModelProvider(
+            requireActivity(),
+            newTaskViewModelFactory
+        ).get(NewTaskViewModel::class.java)
     }
+
+    private val args: NewTaskFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        TaskApplication.component.inject(this)
         return inflater.inflate(R.layout.fragment_new_task, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initLiveData()
         initViews()
+        initLiveData()
     }
 
-
     private fun initViews() {
-        v_choose_category.setOnClickListener {
-            viewModel.chooseCategoryClicked()
+        newTaskViewModel.gotTask(args.clickedTask?.copy())
+        fab.setImageResource(R.drawable.ic_check)
+
+        fab.setOnClickListener {
+            newTaskViewModel.addTask()
+            findNavController().navigate(R.id.action_newTaskFragment_to_allTasksFragment)
         }
 
         tf_date.setStartIconOnClickListener {
@@ -69,17 +83,30 @@ class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
         et_task.addTextChangedListener(
             afterTextChanged = {
-                viewModel.newTitleEntered(it.toString())
-            })
+                newTaskViewModel.newTitleEntered(it.toString())
+            }
+        )
 
         et_task_description.addTextChangedListener(
             afterTextChanged = {
-                viewModel.newDescriptionEntered(it.toString())
-            })
+                newTaskViewModel.newDescriptionEntered(it.toString())
+            }
+        )
+
+        v_choose_category.setOnClickListener {
+            findNavController().navigate(R.id.action_newTaskFragment_to_allCategoriesFragment)
+        }
     }
 
     private fun initLiveData() {
-        viewModel.currentCategory.observe(viewLifecycleOwner, Observer {
+        newTaskViewModel.currentTask.observe(viewLifecycleOwner, Observer {
+            et_task.setText(it.title)
+            et_task_description.setText(it.description)
+            tf_date.editText?.setText(it.dateDue)
+            tf_time.editText?.setText(it.timeDue)
+        })
+
+        newTaskViewModel.currentCategory.observe(viewLifecycleOwner, Observer {
             iv_choose_category.setImageResource(
                 resources.getIdentifier(
                     it.icon,
@@ -91,35 +118,33 @@ class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             tv_choose_category.text = it.title
             tv_choose_category.setTextColor(Color.parseColor(it.color))
         })
-
-        viewModel.currentTask.observe(viewLifecycleOwner, Observer {
-            tf_task.editText?.setText(it.title)
-            tf_task_description.editText?.setText(it.description)
-            tf_date.editText?.setText(it.dateDue)
-            tf_time.editText?.setText(it.timeDue)
-        })
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        val calendar = Calendar.getInstance()
-        calendar.set(year, month, dayOfMonth)
-        val inMillis = calendar.timeInMillis
-        val pattern = "dd.MM.yyyy"
-        val formatter = SimpleDateFormat(pattern)
-        val date = formatter.format(Date(inMillis))
+        val dayToDisplay = if (dayOfMonth < 10) {
+            "0$dayOfMonth"
+        } else dayOfMonth
+
+        val monthToDisplay = if (month + 1 < 10) {
+            "0${month + 1}"
+        } else month + 1
+
+        val date = "$dayToDisplay.$monthToDisplay.$year"
         tf_date.editText?.setText(date)
-        viewModel.dateSelected(date, inMillis)
+        newTaskViewModel.dateSelected(date)
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        "$hourOfDay:$minute"
-        val calendar = Calendar.getInstance()
-        calendar.set(1988, 11 , 2, hourOfDay, minute, 0)
-        val inMillis = calendar.timeInMillis
-        val pattern = "HH:mm"
-        val formatter = SimpleDateFormat(pattern)
-        val time = formatter.format(Date(inMillis))
+        val hourToDisplay = if (hourOfDay < 10) {
+            "0$hourOfDay"
+        } else hourOfDay
+
+        val minuteToDisplay = if (minute < 10) {
+            "0$minute"
+        } else minute
+
+        val time = "$hourToDisplay:$minuteToDisplay"
         tf_time.editText?.setText(time)
-        viewModel.timeSelected(time, inMillis)
+        newTaskViewModel.timeSelected(time)
     }
 }

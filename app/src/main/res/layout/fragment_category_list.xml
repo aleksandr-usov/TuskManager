@@ -12,13 +12,13 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingTop="8dp"
+        android:paddingBottom="52dp"
         android:foregroundGravity="center"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:spanCount="3"
-        tools:ignore="RtlSymmetry"
         tools:listitem="@layout/category_element" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,191 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tf_category_name"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tf_category_name"
+        style="@style/TILSOutlinetyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:hint="@string/category_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="318dp">
+
+        <com.google.android.material.textfield.TextInputEditText
             style="@style/TILSOutlinetyle"
-            android:layout_width="0dp"
+            android:id="@+id/et_category_name"
+            android:maxLength="14"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:hint="@string/CategoryName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_max="318dp">
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            tools:text="Werk" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/TILSOutlinetyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                tools:text="Werk" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/tv_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/pick_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tf_category_name" />
 
-        <TextView
-            android:id="@+id/tv_category"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_category"
+        android:layout_width="190dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="5dp"
+        android:overScrollMode="never"
+        android:clipToPadding="false"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_category"
+        app:spanCount="3"
+        tools:listitem="@layout/category_icon_element" />
+
+    <TextView
+        android:id="@+id/tv_category_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/pick_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_category" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_category_color"
+        android:layout_width="190dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="5dp"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_category_color"
+        app:spanCount="3"
+        tools:listitem="@layout/category_color_element" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="8dp">
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:transitionName="bar"
+            android:visibility="invisible"
+            app:buttonGravity="center_vertical"
+            app:fabAlignmentMode="center" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            style="@style/FabStyle"
+            android:src="@drawable/ic_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/PickIcon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tf_category_name" />
+            app:layout_anchor="@id/bar" />
 
-        <View
-            android:id="@+id/v_category_choose_suit_case"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="5dp"
-            android:elevation="4dp"
-            android:layout_marginEnd="10dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:background="@drawable/bg_list_elemt"
-            app:layout_constraintEnd_toStartOf="@+id/v_category_choose_house"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_category" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <ImageView
-            android:id="@+id/iv_category_choose_icon_suit_case"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_suit_case"
-            android:tint="#179AB7"
-            android:elevation="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/v_category_choose_suit_case"
-            app:layout_constraintEnd_toEndOf="@+id/v_category_choose_suit_case"
-            app:layout_constraintStart_toStartOf="@+id/v_category_choose_suit_case"
-            app:layout_constraintTop_toTopOf="@+id/v_category_choose_suit_case"
-            tools:ignore="ContentDescription" />
-
-        <View
-            android:id="@+id/v_category_choose_house"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="10dp"
-            android:elevation="4dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:background="@drawable/bg_list_elemt"
-            app:layout_constraintEnd_toStartOf="@+id/v_category_choose_clock"
-            app:layout_constraintStart_toEndOf="@+id/v_category_choose_suit_case"
-            app:layout_constraintTop_toTopOf="@+id/v_category_choose_suit_case" />
-
-        <ImageView
-            android:id="@+id/iv_category_choose_icon_house"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_house"
-            android:tint="#179AB7"
-            android:elevation="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/v_category_choose_house"
-            app:layout_constraintEnd_toEndOf="@+id/v_category_choose_house"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/v_category_choose_house"
-            app:layout_constraintTop_toTopOf="@+id/v_category_choose_house"
-            tools:ignore="ContentDescription" />
-
-        <View
-            android:id="@+id/v_category_choose_clock"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:elevation="4dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:background="@drawable/bg_list_elemt"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/v_category_choose_house"
-            app:layout_constraintTop_toTopOf="@+id/v_category_choose_suit_case" />
-
-        <ImageView
-            android:id="@+id/iv_category_choose_icon_clock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_clock"
-            android:tint="#179AB7"
-            android:elevation="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/v_category_choose_clock"
-            app:layout_constraintEnd_toEndOf="@+id/v_category_choose_clock"
-            app:layout_constraintStart_toStartOf="@+id/v_category_choose_clock"
-            app:layout_constraintTop_toTopOf="@+id/v_category_choose_clock"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/tv_category_color"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/PickColor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/v_category_choose_suit_case" />
-
-        <ImageView
-            android:id="@+id/iv_category_color_mustard"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:src="@drawable/color_mustard"
-            app:layout_constraintEnd_toStartOf="@+id/iv_category_color_blue"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_category_color" />
-
-        <ImageView
-            android:id="@+id/iv_category_color_blue"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="5dp"
-            android:src="@drawable/color_blue"
-            app:layout_constraintEnd_toStartOf="@+id/iv_category_color_green"
-            app:layout_constraintStart_toEndOf="@+id/iv_category_color_mustard"
-            app:layout_constraintTop_toTopOf="@+id/iv_category_color_mustard" />
-
-        <ImageView
-            android:id="@+id/iv_category_color_green"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/color_green"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_category_color_blue"
-            app:layout_constraintTop_toTopOf="@+id/iv_category_color_mustard" />
-
-        <ImageView
-            android:id="@+id/iv_category_color_red"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:src="@drawable/color_red"
-            app:layout_constraintEnd_toStartOf="@+id/iv_category_color_orange"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_category_color_mustard" />
-
-        <ImageView
-            android:id="@+id/iv_category_color_orange"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="5dp"
-            android:src="@drawable/color_orange"
-            app:layout_constraintEnd_toStartOf="@+id/iv_category_color_purple"
-            app:layout_constraintStart_toEndOf="@+id/iv_category_color_red"
-            app:layout_constraintTop_toTopOf="@+id/iv_category_color_red" />
-
-        <ImageView
-            android:id="@+id/iv_category_color_purple"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/color_purple"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_category_color_orange"
-            app:layout_constraintTop_toTopOf="@+id/iv_category_color_red" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

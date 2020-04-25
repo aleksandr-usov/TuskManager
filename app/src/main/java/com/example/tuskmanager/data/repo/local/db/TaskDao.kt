@@ -11,7 +11,6 @@ import io.reactivex.Single
 
 @Dao
 interface TaskDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTask(task: TaskRepoModel): Single<Long>
 
@@ -27,4 +26,6 @@ interface TaskDao {
     @Query("DELETE FROM tasks WHERE uniqueTaskId IN (:ids)")
     fun deleteTasks(ids: List<Long>): Completable
 
+    @Query("UPDATE tasks SET completedFlag = 1 WHERE uniqueTaskId = :taskId")
+    fun markTaskAsCompleted(taskId: Long): Completable
 }
