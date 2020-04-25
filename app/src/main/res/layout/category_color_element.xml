@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginStart="3dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/iv_color_check"
+        android:src="@drawable/ic_check"
+        android:elevation="4dp"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        app:layout_constraintStart_toStartOf="@+id/iv_category_choose_color_element"
+        app:layout_constraintTop_toTopOf="@+id/iv_category_choose_color_element"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_category_choose_color_element"
+        app:layout_constraintEnd_toEndOf="@+id/iv_category_choose_color_element"/>
+
+    <ImageView
+        android:id="@+id/iv_category_choose_color_element"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/color_mustard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
