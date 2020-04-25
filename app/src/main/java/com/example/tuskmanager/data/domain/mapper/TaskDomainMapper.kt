@@ -22,9 +22,10 @@ class TaskDomainMapper @Inject constructor() {
             categoryIcon = taskRepo.categoryIcon,
             color = taskRepo.color,
             description = taskRepo.description,
-            dateCreated = taskRepo.dateAndTimeCreated.toString(),
+            dateCreated = taskRepo.dateAndTimeCreated,
             dateDue = formatterDate.format(Date(taskRepo.dateAndTimeDue)),
-            timeDue = formatterTime.format(Date(taskRepo.dateAndTimeDue))
+            timeDue = formatterTime.format(Date(taskRepo.dateAndTimeDue)),
+            isComplete = taskRepo.completedFlag != 0
         )
     }
 }

@@ -1,18 +1,24 @@
 <resources>
     <string name="app_name">Tusk Manager</string>
-    <string name="EmptyTaskExplained">You haven\'t created any tasks yet.\nYou should try it!</string>
-    <string name="StartPlanning">Start Planning</string>
-    <string name="Task">Task yourself</string>
-    <string name="Date">Date</string>
-    <string name="Time">Time</string>
-    <string name="PickCategory">Pick a category</string>
-    <string name="TaskDescription">Write a description for your task</string>
-    <string name="TaskTitle">Give your task a title</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="empty_task_explained">You haven\'t created any tasks yet.\nYou should try it!</string>
+    <string name="start_planning">Start Planning</string>
+    <string name="task">Task yourself</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="pick_category">Pick a category</string>
+    <string name="task_description">Write a description for your task</string>
+    <string name="task_title">Give your task a title</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="Add">Add</string>
-    <string name="PickIcon">Pick a category icon</string>
-    <string name="CategoryName">Category name</string>
-    <string name="PickColor">Pick a category color</string>
+    <string name="add">Add</string>
+    <string name="pick_icon">Pick a category icon</string>
+    <string name="category_name">Category name</string>
+    <string name="pick_color">Pick a category color</string>
+    <string name="sort">Sort</string>
+    <string name="empty_task_list_completed">No completed tasks to display</string>
+    <string name="empty_task_list_explained_completed">Complete a task first!</string>
+    <string name="empty_task_list">Start Planning</string>
+    <string name="empty_task_list_explained">You haven\'t created any tasks yet.\nYou should try it!</string>
+    <string name="today">Tasks due today</string>
+    <string name="tasks_due_this_week">Tasks due this week</string>
+    <string name="tasks_due_next_week">Tasks due next week</string>
 </resources>

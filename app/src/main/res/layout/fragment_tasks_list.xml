@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:elevation="4dp"
         android:clipToPadding="false"
-        android:paddingBottom="52dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:elevation="4dp"
-        android:text="@string/StartPlanning"
+        android:text="@string/start_planning"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,36 +51,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="4dp"
-        android:text="@string/EmptyTaskExplained"
+        android:text="@string/empty_task_explained"
         android:textAlignment="center"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_empty_task_list" />
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:elevation="8dp"
-        android:layout_height="match_parent">
-
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bar"
-            android:transitionName="bar"
-            app:hideOnScroll="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:gravity="bottom"
-            app:buttonGravity="center_vertical"
-            app:fabAlignmentMode="center" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            style="@style/FabStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_anchor="@id/bar" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

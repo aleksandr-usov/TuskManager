@@ -14,5 +14,6 @@ data class TaskRepoModel(
     val color: String,
     val description: String,
     val dateAndTimeCreated: Long,
-    val dateAndTimeDue: Long
+    val dateAndTimeDue: Long,
+    val completedFlag: Int
 )
