@@ -27,15 +27,12 @@ class CategoryColorAdapter(
                 .inflate(R.layout.category_color_element, parent, false)
         return ChooseCategoryColorViewHolder(view)
     }
-
     override fun onBindViewHolder(holder: ChooseCategoryColorViewHolder, position: Int) {
         holder.bind(position)
     }
-
     override fun getItemCount(): Int {
         return 6
     }
-
     inner class ChooseCategoryColorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(position: Int) {
             if (checkedPosition != -1) {
@@ -62,7 +59,6 @@ class CategoryColorAdapter(
             )
         }
     }
-
     companion object {
         private val CATEGORY_COLORS = listOf(
             "#B78A17",

@@ -35,9 +35,9 @@ class TaskRepository
         return localDataSource.delayTaskByDay(id)
     }
 
-    fun insertTask(task: TaskRepoModel): Completable {
+    fun insertTask(task: TaskRepoModel): Single<TaskDomainModel> {
         return localDataSource.insertTask(task)
-            .ignoreElement()
+            .map { domainMapper.toDomainModel(task) }
     }
 
     fun markTaskCompleted(taskId: Long): Completable {

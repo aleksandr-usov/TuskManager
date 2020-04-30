@@ -42,13 +42,14 @@ class AllCategoriesAdapter(
     }
 
     inner class DefaultCategoriesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        lateinit var item: WeakReference<CategoryDomainModel>
+        private lateinit var item: WeakReference<CategoryDomainModel>
         private val textViewTitle = itemView.tv_title
         private val imageViewIcon = itemView.iv_task_icon
 
         fun bind(item: CategoryDomainModel) {
             this.item = WeakReference(item)
-            val id = itemView.resources.getIdentifier(item.icon, "drawable", "com.example.tuskmanager")
+            val id =
+                itemView.resources.getIdentifier(item.icon, "drawable", "com.example.tuskmanager")
 
             textViewTitle.text = item.title
             textViewTitle.setTextColor(Color.parseColor(item.color))

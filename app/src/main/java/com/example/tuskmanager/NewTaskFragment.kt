@@ -10,17 +10,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.TimePicker
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.tuskmanager.data.domain.model.TaskDomainModel
+import com.example.tuskmanager.ui.TaskAlarmManager
 import com.example.tuskmanager.ui.viewmodel.NewTaskViewModelFactory
 import kotlinx.android.synthetic.main.fragment_new_task.*
+import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
 
 class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
@@ -56,7 +61,6 @@ class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
         fab.setOnClickListener {
             newTaskViewModel.addTask()
-            findNavController().navigate(R.id.action_newTaskFragment_to_allTasksFragment)
         }
 
         tf_date.setStartIconOnClickListener {
@@ -99,11 +103,32 @@ class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     }
 
     private fun initLiveData() {
+        newTaskViewModel.taskCreated.observe(viewLifecycleOwner, Observer {
+            it ?: return@Observer
+            val alarmManager = TaskAlarmManager(requireContext())
+
+            val myDateDue = it.dateDue + it.timeDue
+            val sdf = SimpleDateFormat("dd.MM.yyyyHH:mm", Locale.ROOT)
+            val dateDue = sdf.parse(myDateDue) ?: return@Observer
+            alarmManager.startAlarm(
+                dateDue.time - TimeUnit.HOURS.toMillis(1),
+                it
+            )
+
+            findNavController().navigate(R.id.action_newTaskFragment_to_allTasksFragment)
+        })
+
         newTaskViewModel.currentTask.observe(viewLifecycleOwner, Observer {
+            Log.d("TAG", it.toString())
             et_task.setText(it.title)
             et_task_description.setText(it.description)
             tf_date.editText?.setText(it.dateDue)
             tf_time.editText?.setText(it.timeDue)
+        })
+
+        newTaskViewModel.error.observe(viewLifecycleOwner, Observer {
+            it ?: return@Observer
+            Toast.makeText(requireContext(), it, LENGTH_SHORT).show()
         })
 
         newTaskViewModel.currentCategory.observe(viewLifecycleOwner, Observer {
