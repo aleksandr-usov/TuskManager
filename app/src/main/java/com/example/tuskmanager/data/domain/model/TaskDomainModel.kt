@@ -10,14 +10,11 @@ data class TaskDomainModel(
     var color: String,
     var description: String,
     val dateCreated: Long,
+
     var dateDue: String,
     var timeDue: String,
     var isComplete: Boolean
 ) : Serializable {
-    fun isTaskValid(): Boolean {
-        return title.isNotEmpty() && category.isNotEmpty() && description.isNotEmpty() && dateDue.isNotEmpty() &&
-                timeDue.isNotEmpty()
-    }
 
     companion object {
         val TASK_ADD_NEW: TaskDomainModel

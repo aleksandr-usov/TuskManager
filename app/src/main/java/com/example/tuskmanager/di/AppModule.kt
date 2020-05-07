@@ -2,15 +2,11 @@ package com.example.tuskmanager.di
 
 import android.app.Application
 import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.tuskmanager.TaskApplication
 import com.example.tuskmanager.data.repo.local.db.TaskDatabase
-import com.example.tuskmanager.data.repo.model.CategoryRepoModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Singleton
 
 @Module

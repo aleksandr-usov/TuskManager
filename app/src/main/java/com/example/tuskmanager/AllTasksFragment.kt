@@ -32,7 +32,6 @@ class AllTasksFragment : Fragment() {
     private val listener: OnChooseTaskClickListener = object :
         OnChooseTaskClickListener {
         override fun onItemClick(newlySelected: TaskDomainModel) {
-            allTasksViewModel.onTaskClicked(newlySelected)
             findNavController().navigate(
                 AllTasksFragmentDirections.actionAllTasksFragmentToNewTaskFragment(
                     newlySelected

@@ -5,7 +5,6 @@ import com.example.tuskmanager.data.repo.model.CategoryRepoModel
 import javax.inject.Inject
 
 class CategoryDomainMapper @Inject constructor() {
-
     fun toDomainModel(categoryRepo: CategoryRepoModel): CategoryDomainModel {
         return CategoryDomainModel(
             id = categoryRepo.id,

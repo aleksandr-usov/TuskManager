@@ -14,6 +14,8 @@ class TaskAlarmManager(private val context: Context) {
     fun startAlarm(time: Long, task: TaskDomainModel) {
         val intent = Intent(context, TaskAlertReceiver::class.java).apply {
             putExtra("task_title", task.title)
+            putExtra("date_due", task.dateDue)
+            putExtra("time_due", task.timeDue)
         }
         val id = (Date().time / 1000L % Int.MAX_VALUE).toInt()
         val pendingIntent =

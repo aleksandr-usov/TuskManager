@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "tasks")
 data class TaskRepoModel(
     @PrimaryKey(autoGenerate = true)
-
     val uniqueTaskId: Long = 0L,
     val title: String,
     val category: String,

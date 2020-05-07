@@ -2,10 +2,8 @@ package com.example.tuskmanager.data.repo
 
 import com.example.tuskmanager.data.domain.mapper.CategoryDomainMapper
 import com.example.tuskmanager.data.domain.model.CategoryDomainModel
-import com.example.tuskmanager.data.domain.model.TaskDomainModel
 import com.example.tuskmanager.data.repo.local.CategoryLocalDataSource
 import com.example.tuskmanager.data.repo.model.CategoryRepoModel
-import com.example.tuskmanager.data.repo.model.TaskRepoModel
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -22,7 +20,11 @@ class CategoryRepository
     fun getAllCategories(): Flowable<List<CategoryDomainModel>> {
         return localDataSource.getAllCategories()
             .map { listFromLocal ->
-                listFromLocal.map { categoryRepoModel -> domainMapper.toDomainModel(categoryRepoModel) }
+                listFromLocal.map { categoryRepoModel ->
+                    domainMapper.toDomainModel(
+                        categoryRepoModel
+                    )
+                }
             }
     }
 
@@ -32,8 +34,9 @@ class CategoryRepository
         }
     }
 
-    fun insertCategory(category: CategoryRepoModel): Single<Long> {
+    fun insertCategory(category: CategoryRepoModel): Single<CategoryDomainModel> {
         return localDataSource.insertCategory(category)
+            .map { domainMapper.toDomainModel(category) }
     }
 
     fun deleteCategory(categoryId: Long): Completable {

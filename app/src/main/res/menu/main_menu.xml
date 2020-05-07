@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/search_by_time_due">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/today"
+                    android:icon="@drawable/ic_today"
+                    android:title="@string/today" />
+                <item
+                    android:id="@+id/this_week"
+                    android:icon="@drawable/ic_date"
+                    android:title="@string/tasks_due_this_week" />
+                <item
+                    android:id="@+id/next_week"
+                    android:icon="@drawable/ic_hourglass"
+                    android:title="@string/tasks_due_next_week" />
+            </group>
+        </menu>
+    </item>
+</menu>

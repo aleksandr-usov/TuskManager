@@ -45,6 +45,13 @@ class AllTasksViewModel constructor(
         }
     }
 
+    fun sortByCategory(category: String) {
+        _tasksToDisplay.value = _allTasks.value
+        _tasksToDisplay.value = _tasksToDisplay.value?.filter {
+            it.category == category
+        }
+    }
+
     fun sort() {
         disposables.add(
             taskRepository.getAllTasks()
@@ -109,9 +116,5 @@ class AllTasksViewModel constructor(
                 )
         )
         _swipedTask.value = TaskDomainModel.TASK_ADD_NEW
-    }
-
-    fun onTaskClicked(newlySelected: TaskDomainModel) {
-
     }
 }

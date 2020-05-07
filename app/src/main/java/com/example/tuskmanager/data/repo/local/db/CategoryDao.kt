@@ -11,7 +11,6 @@ import io.reactivex.Single
 
 @Dao
 interface CategoryDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCategory(category: CategoryRepoModel): Single<Long>
 
@@ -29,5 +28,4 @@ interface CategoryDao {
 
     @Query("DELETE FROM categories WHERE id IN (:ids)")
     fun deleteCategories(ids: List<Long>): Completable
-
 }

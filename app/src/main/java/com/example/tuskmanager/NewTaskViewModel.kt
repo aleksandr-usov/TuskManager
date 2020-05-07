@@ -21,9 +21,6 @@ class NewTaskViewModel constructor(
     private val _currentTask = MutableLiveData<TaskDomainModel>()
     val currentTask: LiveData<TaskDomainModel> = _currentTask
 
-    private val _currentCategory = MutableLiveData<CategoryDomainModel>()
-    val currentCategory: MutableLiveData<CategoryDomainModel> = _currentCategory
-
     private val _allCategories = MutableLiveData<List<CategoryDomainModel>>()
     val allCategories: LiveData<List<CategoryDomainModel>> = _allCategories
 
@@ -37,7 +34,6 @@ class NewTaskViewModel constructor(
 
     init {
         _currentTask.value = TaskDomainModel.TASK_ADD_NEW
-        _currentCategory.value = CategoryDomainModel.CATEGORY_ADD_NEW
 
         disposables.add(
             categoryRepository.getAllCategories()
@@ -55,12 +51,6 @@ class NewTaskViewModel constructor(
     fun gotTask(clickedTask: TaskDomainModel?) {
         clickedTask ?: return
         _currentTask.value = clickedTask
-        _currentCategory.value = _currentCategory.value?.copy(
-            id = 0,
-            title = clickedTask.category,
-            icon = clickedTask.categoryIcon,
-            color = clickedTask.color
-        )
     }
 
     private fun convertDateAndTime(date: String?, time: String?): Long {
@@ -76,61 +66,45 @@ class NewTaskViewModel constructor(
         val description = currentTask.description
         val category = currentTask.category
         val categoryIcon = currentTask.categoryIcon
-
         val color = currentTask.color
 
         _error.value = null
 
-        when {
-            title.isEmpty() -> {
-                _error.value = "Empty title!"
-            }
-            description.isEmpty() -> {
-                _error.value = "Empty description!"
-            }
-            category == "Pick a category" -> {
-                _error.value = "Pick a category!"
-            }
-            currentTask.dateDue.isEmpty() -> {
-                _error.value = "Empty date!"
-            }
-            currentTask.timeDue.isEmpty() -> {
-                _error.value = "Empty time!"
-            }
-            else -> {
-                val millis = convertDateAndTime(currentTask.dateDue, currentTask.timeDue)
-                val newRepoTask = TaskRepoModel(
-                    uniqueTaskId = currentTask.id,
-                    title = title,
-                    category = category,
-                    categoryIcon = categoryIcon,
-                    color = color,
-                    dateAndTimeCreated = System.currentTimeMillis(),
-                    dateAndTimeDue = millis,
-                    description = description,
-                    completedFlag = 0
-                )
+        if (title.isEmpty() || description.isEmpty() || category == "Pick a category" || currentTask.dateDue.isEmpty() || currentTask.timeDue.isEmpty()) {
+            _error.value = "error"
+        } else {
+            _error.value = null
+            val millis = convertDateAndTime(currentTask.dateDue, currentTask.timeDue)
+            val newRepoTask = TaskRepoModel(
+                uniqueTaskId = currentTask.id,
+                title = title,
+                category = category,
+                categoryIcon = categoryIcon,
+                color = color,
+                dateAndTimeCreated = System.currentTimeMillis(),
+                dateAndTimeDue = millis,
+                description = description,
+                completedFlag = 0
+            )
 
-                disposables.add(
-                    taskRepository.insertTask(newRepoTask)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                            {
-                                _taskCreated.value = it
-                                _taskCreated.value = null
-                            },
-                            {
-                                it.printStackTrace()
-                            }
-                        )
-                )
-            }
+            disposables.add(
+                taskRepository.insertTask(newRepoTask)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            _taskCreated.value = it
+                            _taskCreated.value = null
+                        },
+                        {
+                            it.printStackTrace()
+                        }
+                    )
+            )
         }
     }
 
     fun onCategoryClicked(newlySelected: CategoryDomainModel) {
-        _currentCategory.value = newlySelected
         _currentTask.value?.category = newlySelected.title
         _currentTask.value?.categoryIcon = newlySelected.icon
         _currentTask.value?.color = newlySelected.color

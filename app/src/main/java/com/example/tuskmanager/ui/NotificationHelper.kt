@@ -22,18 +22,19 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createChannels() {
-        val channel1 = NotificationChannel(CHANNEL_1_ID, CHANNEL_1_NAME, NotificationManager.IMPORTANCE_HIGH)
+        val channel1 =
+            NotificationChannel(CHANNEL_1_ID, CHANNEL_1_NAME, NotificationManager.IMPORTANCE_HIGH)
         channel1.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
 
         getManager().createNotificationChannel(channel1)
     }
 
     fun getManager(): NotificationManager {
-       return getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        return getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
     fun getGroupBuilder(): NotificationCompat.Builder {
-      return NotificationCompat.Builder(applicationContext, CHANNEL_1_ID)
+        return NotificationCompat.Builder(applicationContext, CHANNEL_1_ID)
             .setGroupSummary(true)
             .setGroup("TASKS_ABOUT_TO_EXPIRE")
             .setSmallIcon(R.drawable.ic_attention)

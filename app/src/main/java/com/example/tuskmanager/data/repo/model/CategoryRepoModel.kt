@@ -2,7 +2,6 @@ package com.example.tuskmanager.data.repo.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.tuskmanager.data.repo.local.db.TaskDatabase
 
 @Entity(tableName = "categories")
 data class CategoryRepoModel(

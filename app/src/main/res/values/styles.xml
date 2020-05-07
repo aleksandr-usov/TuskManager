@@ -6,6 +6,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
         <item name="android:timePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
+        <item name="colorControlNormal">#179AB7</item>
     </style>
 
     <style name="MyDatePickerDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog">

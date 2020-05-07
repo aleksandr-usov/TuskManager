@@ -5,13 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tuskmanager.AllCategoriesFragment
 import com.example.tuskmanager.NewCategoryFragment
 import com.example.tuskmanager.R
-import com.example.tuskmanager.data.domain.model.CategoryDomainModel
-import kotlinx.android.synthetic.main.category_element.view.*
 import kotlinx.android.synthetic.main.category_icon_element.view.*
-import java.lang.ref.WeakReference
 
 class CategoryIconAdapter(
     val listener: NewCategoryFragment.OnChooseCategoryIconClickListener
@@ -21,11 +17,11 @@ class CategoryIconAdapter(
     private var currentColor = Color.parseColor("#179AB7")
 
     fun setColor(color: String) {
-        val newColor =  Color.parseColor(color)
+        val newColor = Color.parseColor(color)
         if (currentColor == newColor) return
         else currentColor = newColor
 
-                notifyDataSetChanged()
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(
@@ -77,7 +73,7 @@ class CategoryIconAdapter(
         }
     }
 
-    companion object{
+    companion object {
         private val CATEGORY_ICONS = listOf(
             "ic_suit_case",
             "ic_house",
