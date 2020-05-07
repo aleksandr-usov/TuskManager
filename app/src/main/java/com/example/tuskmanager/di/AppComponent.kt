@@ -13,8 +13,8 @@ import javax.inject.Singleton
 
 @Singleton
 interface AppComponent {
+    fun inject(MainActivity: MainActivity)
     fun inject(AllTasksFragment: AllTasksFragment)
-    fun inject(NewTaskFragment: NewTaskFragment)
     fun inject(NewCategoryFragment: NewCategoryFragment)
 
     @Component.Builder

@@ -56,7 +56,6 @@ class AllTasksAdapter(
                 "drawable",
                 "com.example.tuskmanager"
             )
-
             if (item.isComplete) {
                 itemView.iv_star.visibility = View.VISIBLE
                 itemView.iv_star.alpha = .5F
@@ -69,7 +68,6 @@ class AllTasksAdapter(
                 itemView.tv_task_element_time.setTextColor(Color.parseColor("#DE000000"))
                 itemView.tv_task_element_time.alpha = .5F
             }
-
             textViewTitle.text = item.title
             textViewTitle.setTextColor(Color.parseColor(item.color))
             textViewCategory.text = item.category

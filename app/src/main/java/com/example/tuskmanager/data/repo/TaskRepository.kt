@@ -7,7 +7,6 @@ import com.example.tuskmanager.data.repo.model.TaskRepoModel
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -35,9 +34,9 @@ class TaskRepository
         return localDataSource.delayTaskByDay(id)
     }
 
-    fun insertTask(task: TaskRepoModel): Completable {
+    fun insertTask(task: TaskRepoModel): Single<TaskDomainModel> {
         return localDataSource.insertTask(task)
-            .ignoreElement()
+            .map { domainMapper.toDomainModel(task) }
     }
 
     fun markTaskCompleted(taskId: Long): Completable {

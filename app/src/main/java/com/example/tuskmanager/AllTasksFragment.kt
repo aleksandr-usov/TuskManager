@@ -1,6 +1,8 @@
 package com.example.tuskmanager
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -30,7 +32,6 @@ class AllTasksFragment : Fragment() {
     private val listener: OnChooseTaskClickListener = object :
         OnChooseTaskClickListener {
         override fun onItemClick(newlySelected: TaskDomainModel) {
-            allTasksViewModel.onTaskClicked(newlySelected)
             findNavController().navigate(
                 AllTasksFragmentDirections.actionAllTasksFragmentToNewTaskFragment(
                     newlySelected
@@ -84,10 +85,21 @@ class AllTasksFragment : Fragment() {
 
         val dividerItemDecoration = DividerItemDecoration(context, RecyclerView.VERTICAL)
         rv_tasks_list.addItemDecoration(dividerItemDecoration)
+
+        et_search_tasks.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                allTasksViewModel.searchTasks(s.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
+                Unit
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
+        })
     }
 
     private fun initLiveData() {
-        allTasksViewModel.allTasks.observe(viewLifecycleOwner, Observer { allTasks ->
+        allTasksViewModel.tasksToDisplay.observe(viewLifecycleOwner, Observer { allTasks ->
             allTasksAdapter.setItems(allTasks)
             if (allTasks.isNotEmpty()) {
                 group_empty_state.visibility = View.GONE

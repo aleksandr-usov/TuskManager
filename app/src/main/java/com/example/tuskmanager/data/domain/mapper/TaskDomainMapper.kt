@@ -7,9 +7,7 @@ import java.util.*
 import javax.inject.Inject
 
 class TaskDomainMapper @Inject constructor() {
-
     fun toDomainModel(taskRepo: TaskRepoModel): TaskDomainModel {
-
         val patternDate = "dd.MM.yyyy"
         val patternTime = "HH:mm"
         val formatterDate = SimpleDateFormat(patternDate, Locale.ROOT)

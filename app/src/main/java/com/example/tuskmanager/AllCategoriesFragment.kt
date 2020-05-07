@@ -5,12 +5,9 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.example.tuskmanager.data.domain.model.CategoryDomainModel
 import com.example.tuskmanager.ui.adapters.AllCategoriesAdapter
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_category_list.*
 
 class AllCategoriesFragment : Fragment() {
@@ -21,10 +18,11 @@ class AllCategoriesFragment : Fragment() {
     private val listener: OnChooseCategoryClickListener = object :
         OnChooseCategoryClickListener {
         override fun onItemClick(newlySelected: CategoryDomainModel) {
-            newTaskViewModel.onCategoryClicked(newlySelected)
-            findNavController().navigate(
-                AllCategoriesFragmentDirections.actionAllCategoriesFragmentToNewTaskFragment(null)
+            findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                "newlySelectedCategory",
+                newlySelected
             )
+            findNavController().navigateUp()
         }
     }
 

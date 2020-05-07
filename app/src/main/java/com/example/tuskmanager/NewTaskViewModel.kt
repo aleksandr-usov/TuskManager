@@ -1,6 +1,5 @@
 package com.example.tuskmanager
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,17 +21,19 @@ class NewTaskViewModel constructor(
     private val _currentTask = MutableLiveData<TaskDomainModel>()
     val currentTask: LiveData<TaskDomainModel> = _currentTask
 
-    private val _currentCategory = MutableLiveData<CategoryDomainModel>()
-    val currentCategory: MutableLiveData<CategoryDomainModel> = _currentCategory
-
     private val _allCategories = MutableLiveData<List<CategoryDomainModel>>()
     val allCategories: LiveData<List<CategoryDomainModel>> = _allCategories
+
+    private val _taskCreated = MutableLiveData<TaskDomainModel>()
+    val taskCreated: LiveData<TaskDomainModel> = _taskCreated
+
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> = _error
 
     private val disposables = CompositeDisposable()
 
     init {
         _currentTask.value = TaskDomainModel.TASK_ADD_NEW
-        _currentCategory.value = CategoryDomainModel.CATEGORY_ADD_NEW
 
         disposables.add(
             categoryRepository.getAllCategories()
@@ -50,12 +51,6 @@ class NewTaskViewModel constructor(
     fun gotTask(clickedTask: TaskDomainModel?) {
         clickedTask ?: return
         _currentTask.value = clickedTask
-        _currentCategory.value = _currentCategory.value?.copy(
-            id = 0,
-            title = clickedTask.category,
-            icon = clickedTask.categoryIcon,
-            color = clickedTask.color
-        )
     }
 
     private fun convertDateAndTime(date: String?, time: String?): Long {
@@ -66,35 +61,50 @@ class NewTaskViewModel constructor(
     }
 
     fun addTask() {
-        val millis = convertDateAndTime(_currentTask.value?.dateDue, _currentTask.value?.timeDue)
+        val currentTask = currentTask.value ?: return
+        val title = currentTask.title
+        val description = currentTask.description
+        val category = currentTask.category
+        val categoryIcon = currentTask.categoryIcon
+        val color = currentTask.color
 
-        val newRepoTask = TaskRepoModel(
-            uniqueTaskId = _currentTask.value?.id ?: 0,
-            title = _currentTask.value?.title ?: "",
-            category = _currentTask.value?.category ?: "",
-            categoryIcon = _currentTask.value?.categoryIcon ?: "",
-            color = _currentTask.value?.color ?: "",
-            dateAndTimeCreated = System.currentTimeMillis(),
-            dateAndTimeDue = millis,
-            description = _currentTask.value?.description ?: "",
-            completedFlag = 0
-        )
+        _error.value = null
 
-        disposables.add(
-            taskRepository.insertTask(newRepoTask)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {},
-                    {
-                        it.printStackTrace()
-                    }
-                )
-        )
+        if (title.isEmpty() || description.isEmpty() || category == "Pick a category" || currentTask.dateDue.isEmpty() || currentTask.timeDue.isEmpty()) {
+            _error.value = "error"
+        } else {
+            _error.value = null
+            val millis = convertDateAndTime(currentTask.dateDue, currentTask.timeDue)
+            val newRepoTask = TaskRepoModel(
+                uniqueTaskId = currentTask.id,
+                title = title,
+                category = category,
+                categoryIcon = categoryIcon,
+                color = color,
+                dateAndTimeCreated = System.currentTimeMillis(),
+                dateAndTimeDue = millis,
+                description = description,
+                completedFlag = 0
+            )
+
+            disposables.add(
+                taskRepository.insertTask(newRepoTask)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            _taskCreated.value = it
+                            _taskCreated.value = null
+                        },
+                        {
+                            it.printStackTrace()
+                        }
+                    )
+            )
+        }
     }
 
     fun onCategoryClicked(newlySelected: CategoryDomainModel) {
-        _currentCategory.value = newlySelected
         _currentTask.value?.category = newlySelected.title
         _currentTask.value?.categoryIcon = newlySelected.icon
         _currentTask.value?.color = newlySelected.color

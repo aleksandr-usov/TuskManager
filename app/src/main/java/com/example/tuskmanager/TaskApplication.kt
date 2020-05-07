@@ -5,7 +5,7 @@ import com.example.tuskmanager.di.AppComponent
 import com.example.tuskmanager.di.DaggerAppComponent
 import com.facebook.stetho.Stetho
 
-class TaskApplication: Application() {
+class TaskApplication : Application() {
 
     companion object {
         lateinit var component: AppComponent

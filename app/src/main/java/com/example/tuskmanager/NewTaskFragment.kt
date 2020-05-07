@@ -4,33 +4,32 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.TimePicker
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.tuskmanager.data.domain.model.TaskDomainModel
-import com.example.tuskmanager.ui.viewmodel.NewTaskViewModelFactory
+import com.example.tuskmanager.data.domain.model.CategoryDomainModel
+import com.example.tuskmanager.ui.TaskAlarmManager
 import kotlinx.android.synthetic.main.fragment_new_task.*
+import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
+import java.util.concurrent.TimeUnit
 
 class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
-    @Inject
-    lateinit var newTaskViewModelFactory: NewTaskViewModelFactory
 
     private val newTaskViewModel by lazy {
         ViewModelProvider(
-            requireActivity(),
-            newTaskViewModelFactory
+            requireActivity()
         ).get(NewTaskViewModel::class.java)
     }
 
@@ -40,7 +39,6 @@ class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        TaskApplication.component.inject(this)
         return inflater.inflate(R.layout.fragment_new_task, container, false)
     }
 
@@ -52,11 +50,13 @@ class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
     private fun initViews() {
         newTaskViewModel.gotTask(args.clickedTask?.copy())
-        fab.setImageResource(R.drawable.ic_check)
+        findNavController().currentBackStackEntry?.savedStateHandle?.get<CategoryDomainModel>("newlySelectedCategory")
+            ?.let {
+                newTaskViewModel.onCategoryClicked(it)
+            }
 
         fab.setOnClickListener {
             newTaskViewModel.addTask()
-            findNavController().navigate(R.id.action_newTaskFragment_to_allTasksFragment)
         }
 
         tf_date.setStartIconOnClickListener {
@@ -93,30 +93,58 @@ class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             }
         )
 
+        tf_date_text.addTextChangedListener(
+            afterTextChanged = {
+                newTaskViewModel.dateSelected(it.toString())
+            }
+        )
+
+        tf_time_text.addTextChangedListener(
+            afterTextChanged = {
+                newTaskViewModel.timeSelected(it.toString())
+            }
+        )
+
         v_choose_category.setOnClickListener {
             findNavController().navigate(R.id.action_newTaskFragment_to_allCategoriesFragment)
         }
     }
 
     private fun initLiveData() {
+        newTaskViewModel.taskCreated.observe(viewLifecycleOwner, Observer {
+            it ?: return@Observer
+            val alarmManager = TaskAlarmManager(requireContext())
+            val myDateDue = it.dateDue + it.timeDue
+            val sdf = SimpleDateFormat("dd.MM.yyyyHH:mm", Locale.ROOT)
+            val dateDue = sdf.parse(myDateDue) ?: return@Observer
+            alarmManager.startAlarm(
+                dateDue.time - TimeUnit.HOURS.toMillis(1),
+                it
+            )
+            findNavController().navigate(R.id.action_newTaskFragment_to_allTasksFragment)
+        })
+
         newTaskViewModel.currentTask.observe(viewLifecycleOwner, Observer {
             et_task.setText(it.title)
             et_task_description.setText(it.description)
-            tf_date.editText?.setText(it.dateDue)
-            tf_time.editText?.setText(it.timeDue)
-        })
-
-        newTaskViewModel.currentCategory.observe(viewLifecycleOwner, Observer {
+            tf_date_text.setText(it.dateDue)
+            tf_time_text.setText(it.timeDue)
             iv_choose_category.setImageResource(
                 resources.getIdentifier(
-                    it.icon,
+                    it.categoryIcon,
                     "drawable",
                     "com.example.tuskmanager"
                 )
             )
             iv_choose_category.setColorFilter(Color.parseColor(it.color))
-            tv_choose_category.text = it.title
+            tv_choose_category.text = it.category
             tv_choose_category.setTextColor(Color.parseColor(it.color))
+        })
+
+        newTaskViewModel.error.observe(viewLifecycleOwner, Observer {
+            it ?: return@Observer
+            Toast.makeText(requireContext(), "Fill all fields to create a task!", LENGTH_SHORT)
+                .show()
         })
     }
 
@@ -131,7 +159,6 @@ class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
         val date = "$dayToDisplay.$monthToDisplay.$year"
         tf_date.editText?.setText(date)
-        newTaskViewModel.dateSelected(date)
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
@@ -145,6 +172,5 @@ class NewTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
         val time = "$hourToDisplay:$minuteToDisplay"
         tf_time.editText?.setText(time)
-        newTaskViewModel.timeSelected(time)
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -58,8 +59,6 @@ class NewCategoryFragment : Fragment() {
     }
 
     private fun initViews() {
-        fab.setImageResource(R.drawable.ic_check)
-
         rv_category.adapter = categoryIconAdapter
         rv_category_color.adapter = categoryColorAdapter
 
@@ -71,7 +70,6 @@ class NewCategoryFragment : Fragment() {
 
         fab.setOnClickListener {
             newCategoryViewModel.addCategory()
-            findNavController().popBackStack()
         }
     }
 
@@ -79,6 +77,20 @@ class NewCategoryFragment : Fragment() {
         newCategoryViewModel.newCategory.observe(viewLifecycleOwner, Observer {
             it ?: return@Observer
             categoryIconAdapter.setColor(it.color)
+        })
+
+        newCategoryViewModel.error.observe(viewLifecycleOwner, Observer {
+            it ?: return@Observer
+            Toast.makeText(
+                requireContext(), "Choose category title, icon and color!",
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        })
+
+        newCategoryViewModel.categoryCreated.observe(viewLifecycleOwner, Observer {
+            it ?: return@Observer
+            findNavController().navigate(R.id.action_newCategoryFragment_to_allCategoriesFragment)
         })
     }
 

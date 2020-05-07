@@ -2,6 +2,7 @@ package com.example.tuskmanager.data.repo.local
 
 import com.example.tuskmanager.data.repo.local.db.TaskDatabase
 import com.example.tuskmanager.data.repo.model.TaskRepoModel
+import com.example.tuskmanager.plus
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import java.util.*
@@ -12,8 +13,7 @@ import javax.inject.Singleton
 @Singleton
 class TaskLocalDataSource @Inject constructor(
     private val database: TaskDatabase
-){
-
+) {
     fun getAllTasks(): Flowable<List<TaskRepoModel>> =
         database.taskDao().getAllTasks()
 
@@ -33,16 +33,6 @@ class TaskLocalDataSource @Inject constructor(
         }
             .flatMap { insertTask(it) }
             .ignoreElement()
-    }
-
-    // TODO extract these extension functions into a separate class
-    fun Date.minus(value: Long, unit: TimeUnit): Date {
-        return Date(this.time - unit.toMillis(value))
-    }
-
-    // TODO extract these extension functions into a separate class
-    fun Date.plus(value: Long, unit: TimeUnit): Date {
-        return Date(this.time + unit.toMillis(value))
     }
 
     fun markTaskAsCompleted(taskId: Long): Completable {

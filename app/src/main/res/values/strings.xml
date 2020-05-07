@@ -21,4 +21,7 @@
     <string name="today">Tasks due today</string>
     <string name="tasks_due_this_week">Tasks due this week</string>
     <string name="tasks_due_next_week">Tasks due next week</string>
+    <string name="search">Search...</string>
+    <string name="tasks_list">Tasks list</string>
+    <string name="search_by_time_due">Search by time due</string>
 </resources>
